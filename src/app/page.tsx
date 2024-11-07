@@ -8,6 +8,7 @@ import { BiEdit, BiTrash } from "react-icons/bi";
 export default function Home() {
   const [list, dispatch] = useReducer(listReducer, []);
   const [newItem, setNewItem] = useState("");
+  const [itemEdited, setItemEdited] = useState("");
   const [isEditing, setIsEditing] = useState(false);
 
   const handleAdd = (e: FormEvent<HTMLFormElement>) => {
@@ -26,8 +27,10 @@ export default function Home() {
     dispatch({ type: "remove", payload: { id: itemId } });
   };
 
-  const handleEdit = (itemId: number) => {
-    dispatch({ type: "editText", payload: { id: itemId, newText: newItem } });
+  const handleEdit = (e: FormEvent<HTMLFormElement>, id: number) => {
+    e.preventDefault();
+
+    dispatch({ type: "editText", payload: { id, newText: itemEdited } });
     setIsEditing(false);
   };
 
@@ -81,14 +84,14 @@ export default function Home() {
               </>
             ) : (
               <form
-                onSubmit={() => handleEdit(item.id)}
+                onSubmit={(e) => handleEdit(e, item.id)}
                 className="h-10 my-8 flex items-center justify-between gap-1"
               >
                 <input
                   className="border w-full h-full"
                   type="text"
-                  value={newItem}
-                  onChange={(e) => setNewItem(e.target.value)}
+                  value={itemEdited}
+                  onChange={(e) => setItemEdited(e.target.value)}
                 />
                 <button className="h-full px-2 bg-slate-300 hover:opacity-65">
                   salvar
