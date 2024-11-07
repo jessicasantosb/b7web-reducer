@@ -14,7 +14,8 @@ export default function Home() {
   const handleAdd = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    dispatch({ type: "add", payload: { text: newItem } });
+    if (newItem.trim() === "") return null;
+    dispatch({ type: "add", payload: { text: newItem.trim() } });
     setNewItem("");
   };
 
