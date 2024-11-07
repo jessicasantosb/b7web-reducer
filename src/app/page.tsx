@@ -32,6 +32,15 @@ export default function Home() {
     setIsDone(!isDone);
   };
 
+  const handleRemove = (itemId: number) => {
+    dispatch({
+      type: "remove",
+      payload: {
+        id: itemId,
+      },
+    });
+  };
+
   return (
     <main className="max-w-96 p-4 mx-auto">
       <form
@@ -51,20 +60,28 @@ export default function Home() {
 
       {list.map((item) => {
         return (
-          <button
+          <div
             key={item.id}
-            type="button"
-            onClick={() => handleDone(item.id)}
-            className={`w-full my-2 p-2 border flex items-center justify-between bg-slate-100 ${
-              isDone && "opacity-40 [&>*]:pointer-events-none"
+            className={`my-2 p-2 border flex items-center justify-between bg-slate-100 ${
+              isDone && "opacity-40 [&>*:not(:first-child)]:pointer-events-none"
             }`}
           >
-            <p className={`${isDone && "line-through"}`}>{item.text}</p>
+            <button
+              type="button"
+              onClick={() => handleDone(item.id)}
+              className="w-full text-left"
+            >
+              <p className={`${isDone && "line-through"}`}>{item.text}</p>
+            </button>
             <div className="flex items-center gap-2 [&>*]:cursor-pointer">
-              <BiTrash size={24} className="text-red-700 hover:opacity-65" />
+              <BiTrash
+                size={24}
+                className="text-red-700 hover:opacity-65"
+                onClick={() => handleRemove(item.id)}
+              />
               <BiEdit size={24} className="text-green-700 hover:opacity-65" />
             </div>
-          </button>
+          </div>
         );
       })}
     </main>
