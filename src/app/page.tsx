@@ -8,7 +8,6 @@ import { BiEdit, BiTrash } from "react-icons/bi";
 export default function Home() {
   const [list, dispatch] = useReducer(listReducer, []);
   const [newItem, setNewItem] = useState("");
-  const [isDone, setIsDone] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
   const handleAdd = (e: FormEvent<HTMLFormElement>) => {
@@ -19,9 +18,8 @@ export default function Home() {
     setNewItem("");
   };
 
-  const handleDone = (itemId: number) => {
-    dispatch({ type: "toggleDone", payload: { id: itemId } });
-    setIsDone(!isDone);
+  const handleDone = (id: number) => {
+    dispatch({ type: "toggleDone", payload: { id } });
   };
 
   const handleRemove = (itemId: number) => {
@@ -55,7 +53,8 @@ export default function Home() {
           <div
             key={item.id}
             className={`my-2 p-2 border flex items-center justify-between bg-slate-100 ${
-              isDone && "opacity-40 [&>*:not(:first-child)]:pointer-events-none"
+              item.done &&
+              "opacity-40 [&>*:not(:first-child)]:pointer-events-none"
             }`}
           >
             {!isEditing ? (
@@ -63,7 +62,7 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={() => handleDone(item.id)}
-                  className={`w-full text-left ${isDone && "line-through"}`}
+                  className={`w-full text-left ${item.done && "line-through"}`}
                 >
                   {item.text}
                 </button>
