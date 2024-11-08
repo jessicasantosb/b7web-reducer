@@ -85,12 +85,12 @@ export default function Home() {
             ) : (
               <form
                 onSubmit={(e) => handleEdit(e, item.id)}
-                className="h-10 my-8 flex items-center justify-between gap-1"
+                className="flex items-center justify-between gap-1"
               >
                 <input
-                  className="border w-full h-full"
+                  className="w-full h-full bg-slate-100"
                   type="text"
-                  value={itemEdited}
+                  defaultValue={item.text}
                   onChange={(e) => setItemEdited(e.target.value)}
                 />
                 <button className="h-full px-2 bg-slate-300 hover:opacity-65">
